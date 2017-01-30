@@ -66,6 +66,7 @@ class PubSubEventsServiceProvider extends ServiceProvider
             return $binding === null ? null : $app[$binding];
         });
 
+        $this->registerTranslators();
         $this->registerValidators();
 
         $this->app->bind('pubsub.events', function ($app) {
