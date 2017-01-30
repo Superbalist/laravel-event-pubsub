@@ -14,6 +14,7 @@ use Superbalist\EventPubSub\Translators\SchemaEventMessageTranslator;
 use Superbalist\EventPubSub\Translators\SimpleEventMessageTranslator;
 use Superbalist\EventPubSub\Translators\TopicEventMessageTranslator;
 use Superbalist\EventPubSub\Validators\JSONSchemaEventValidator;
+use Superbalist\LaravelPubSub\PubSubManager;
 use Superbalist\LaravelPubSub\PubSubServiceProvider;
 use Superbalist\PubSub\PubSubAdapterInterface;
 
