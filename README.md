@@ -14,6 +14,8 @@ for publishing and subscribing to events over pub/sub.
 
 If you aren't familiar with the `laravel-pubsub` package, it's worth first taking a look at their [documentation](https://github.com/Superbalist/laravel-pubsub).
 
+For **Laravel 4** support, use the package https://github.com/Superbalist/laravel4-event-pubsub
+
 ## Installation
 
 ```bash
