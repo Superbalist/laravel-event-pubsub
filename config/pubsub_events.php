@@ -126,4 +126,35 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Attribute Injectors
+    |--------------------------------------------------------------------------
+    |
+    | An attribute injector automatically injects attributes into events
+    | when events are dispatched.
+    | For example, you may wish to have the date, hostname, user data injected
+    | into each and every event which is fired.
+    |
+    | Please see https://github.com/Superbalist/php-event-pubsub for a full list
+    | of supported injectors.
+    |
+    */
+
+    'attribute_injectors' => [
+
+        /*
+        \Superbalist\EventPubSub\AttributeInjectors\DateAttributeInjector::class,
+        \Superbalist\EventPubSub\AttributeInjectors\HostnameAttributeInjector::class,
+        \Superbalist\EventPubSub\AttributeInjectors\Uuid4AttributeInjector::class,
+        function () {
+            return [
+                'key' => 'user_id',
+                'value' => 1234,
+            ];
+        }
+        */
+
+    ],
+
 ];
