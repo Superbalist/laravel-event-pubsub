@@ -69,11 +69,23 @@ class PubSubEventsServiceProvider extends ServiceProvider
         $this->registerTranslators();
         $this->registerValidators();
 
-        $this->app->bind('pubsub.events', function ($app) {
+        $this->app->singleton('pubsub.events', function ($app) {
             $adapter = $app['pubsub.events.connection']; /** @var PubSubAdapterInterface $connection */
             $translator = $app['pubsub.events.translator']; /** @var MessageTranslatorInterface $translator */
             $validator = $app['pubsub.events.validator']; /** @var EventValidatorInterface $validator */
-            return new EventManager($adapter, $translator, $validator);
+
+            $injectors = [];
+            $config = $app['config']['pubsub_events'];
+            foreach ($config['attribute_injectors'] as $binding) {
+                if (is_callable($binding)) {
+                    $injectors[] = $binding;
+                } else {
+                    // resolve binding from container
+                    $injectors[] = $app[$binding];
+                }
+            }
+
+            return new EventManager($adapter, $translator, $validator, $injectors);
         });
     }
 
