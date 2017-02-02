@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 - ?
+## 2.0.0 - 2017-02-02
 
 * Update `superbalist/php-event-pubsub` to ^2.0
 * Change `pubsub.events` to resolve as a singleton
