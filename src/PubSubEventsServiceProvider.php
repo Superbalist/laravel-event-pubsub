@@ -44,7 +44,7 @@ class PubSubEventsServiceProvider extends ServiceProvider
             // config
             // if this value isn't set, we'll default to that from the 'pubsub' package config
             $config = $app['config']['pubsub_events'];
-            $manager = $app['pubsub']; /** @var PubSubManager $manager */
+            $manager = $app['pubsub']; /* @var PubSubManager $manager */
             return $manager->connection($config['default']);
         });
 
@@ -73,7 +73,6 @@ class PubSubEventsServiceProvider extends ServiceProvider
             $adapter = $app['pubsub.events.connection']; /** @var PubSubAdapterInterface $connection */
             $translator = $app['pubsub.events.translator']; /** @var MessageTranslatorInterface $translator */
             $validator = $app['pubsub.events.validator']; /** @var EventValidatorInterface $validator */
-
             $injectors = [];
             $config = $app['config']['pubsub_events'];
             foreach ($config['attribute_injectors'] as $binding) {
@@ -119,12 +118,12 @@ class PubSubEventsServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('pubsub.events.validators.json_schema.loaders.array', function ($app) {
-            $schemas = $app['pubsub.events.validators.json_schema.loaders.array.schemas']; /** @var Collection $schemas */
+            $schemas = $app['pubsub.events.validators.json_schema.loaders.array.schemas']; /* @var Collection $schemas */
             return new ArrayLoader($schemas->all());
         });
 
         $this->app->bind('pubsub.events.validators.json_schema', function ($app) {
-            $dereferencer = $app['pubsub.events.validators.json_schema.dereferencer']; /** @var Dereferencer $dereferencer */
+            $dereferencer = $app['pubsub.events.validators.json_schema.dereferencer']; /* @var Dereferencer $dereferencer */
             return new JSONSchemaEventValidator($dereferencer);
         });
 
@@ -139,7 +138,7 @@ class PubSubEventsServiceProvider extends ServiceProvider
 
                 $prefix = array_get($params, 'prefix', $name);
 
-                $loader = $app[$binding]; /** @var Loader $loader */
+                $loader = $app[$binding]; /* @var Loader $loader */
 
                 $dereferencer->registerLoader($loader, $prefix);
             }
