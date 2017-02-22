@@ -52,7 +52,7 @@ Register the facade in app.php
 ```php
 'aliases' => [
     // ...
-    'PubSubEvents' => Superbalist\LaravelPubSub\PubSubEventsFacade::class,
+    'PubSubEvents' => Superbalist\LaravelEventPubSub\PubSubEventsFacade::class,
 ]
 ```
 
