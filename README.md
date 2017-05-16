@@ -68,7 +68,7 @@ A `SimpleEvent` is an event which takes a name and optional attributes.
 // get the event manager
 $manager = app('pubsub.events');
 
-// publish an event
+// dispatch an event
 $event = new \Superbalist\EventPubSub\Events\SimpleEvent(
     'user.created',
     [
@@ -81,6 +81,27 @@ $event = new \Superbalist\EventPubSub\Events\SimpleEvent(
     ]
 );
 $manager->dispatch('events', $event);
+
+// dispatch multiple events
+$events = [
+    new \Superbalist\EventPubSub\Events\SimpleEvent(
+        'user.created',
+        [
+            'user' => [
+                // ...
+            ],
+        ]
+    ),
+    new \Superbalist\EventPubSub\Events\SimpleEvent(
+        'user.created',
+        [
+            'user' => [
+                // ...
+            ],
+        ]
+    ),
+];
+$manager->dispatchBatch('events', $events);
 
 // listen for an event
 $manager->listen('events', 'user.created', function (\Superbalist\EventPubSub\EventInterface $event) {
@@ -107,7 +128,7 @@ A `TopicEvent` is an event which takes a topic, name, version and optional attri
 // get the event manager
 $manager = app('pubsub.events');
 
-// publish an event
+// dispatch an event
 $event = new \Superbalist\EventPubSub\Events\TopicEvent(
     'user',
     'created',
@@ -122,6 +143,7 @@ $event = new \Superbalist\EventPubSub\Events\TopicEvent(
     ]
 );
 $manager->dispatch('events', $event);
+
 
 // listen for an event on a topic
 $manager->listen('events', 'user/created', function (\Superbalist\EventPubSub\EventInterface $event) {
@@ -159,7 +181,7 @@ The schema must be in the format `(protocol)://(......)?/events/(topic)/(channel
 // get the event manager
 $manager = app('pubsub.events');
 
-// publish an event
+// dispatch an event
 $event = new \Superbalist\EventPubSub\Events\SchemaEvent(
     'http://schemas.my-website.org/events/user/created/1.0.json',
     [

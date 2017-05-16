@@ -10,7 +10,7 @@
   ],
   "require": {
     "php": ">=5.6.0",
-    "superbalist/php-event-pubsub": "^2.0",
+    "superbalist/php-event-pubsub": "^2.0|^3.0",
     "superbalist/laravel-pubsub": "^2.0",
     "illuminate/support": "^5.3"
   },
