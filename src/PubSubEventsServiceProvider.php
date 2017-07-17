@@ -69,7 +69,9 @@ class PubSubEventsServiceProvider extends ServiceProvider
         $this->registerTranslators();
         $this->registerValidators();
 
-        $this->app->singleton('pubsub.events', function ($app) {
+        $this->app->bind('pubsub.events', EventManager::class);
+
+        $this->app->bind(EventManager::class, function ($app) {
             $adapter = $app['pubsub.events.connection']; /** @var PubSubAdapterInterface $connection */
             $translator = $app['pubsub.events.translator']; /** @var MessageTranslatorInterface $translator */
             $validator = $app['pubsub.events.validator']; /** @var EventValidatorInterface $validator */
@@ -84,7 +86,18 @@ class PubSubEventsServiceProvider extends ServiceProvider
                 }
             }
 
-            return new EventManager($adapter, $translator, $validator, $injectors);
+            $manager = new EventManager(
+                $adapter,
+                $translator,
+                $validator,
+                $injectors,
+                $config['translate_fail_handler'],
+                $config['listen_expr_fail_handler'],
+                $config['validation_fail_handler']
+            );
+            $manager->throwValidationExceptionsOnDispatch($config['throw_validation_exceptions_on_dispatch']);
+
+            return $manager;
         });
     }
 

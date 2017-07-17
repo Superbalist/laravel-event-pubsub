@@ -28,17 +28,11 @@ The package has a default configuration which uses the following environment var
 PUBSUB_EVENTS_CONNECTION=null
 PUBSUB_EVENTS_TRANSLATOR=pubsub.events.translators.simple
 PUBSUB_EVENTS_VALIDATOR=null
+PUBSUB_EVENTS_THROW_VALIDATION_EXCEPTIONS_ON_DISPATCH=true
 ```
 
 If the `PUBSUB_EVENTS_CONNECTION` environment variable or `pubsub_events.default` config value is left blank, the
 default connection will be taken from the `laravel-pubsub` package config.
-
-To customize the configuration file, publish the package configuration using Artisan.
-```bash
-php artisan vendor:publish --provider="Superbalist\LaravelEventPubSub\PubSubEventsServiceProvider"
-```
-
-You can then edit the generated config at `app/config/pubsub_events.php`.
 
 Register the service provider in app.php
 ```php
@@ -55,6 +49,13 @@ Register the facade in app.php
     'PubSubEvents' => Superbalist\LaravelEventPubSub\PubSubEventsFacade::class,
 ]
 ```
+
+To customize the configuration file, publish the package configuration using Artisan.
+```bash
+php artisan vendor:publish --provider="Superbalist\LaravelEventPubSub\PubSubEventsServiceProvider"
+```
+
+You can then edit the generated config at `app/config/pubsub_events.php`.
 
 ## Usage
 
@@ -196,4 +197,34 @@ $event = new \Superbalist\EventPubSub\Events\SchemaEvent(
 $manager->dispatch('events', $event);
 
 // the listen expressions are the same as those used for TopicEvents.
+```
+
+## Error Handling
+
+The library supports error handlers for when event translation fails, listen expression fails and validation fails.
+
+These are configurable as callables in the translate_fail_handler, listen_expr_fail_handler and validation_fail_handler
+config options.
+
+The config contains default callables which will turn the callbacks into Laravel events.
+
+You can register listeners in the EventServiceProvider for the following events:
+
+```
+\Superbalist\LaravelEventPubSub\Events\TranslationFailureEvent(
+    $message
+)
+```
+
+```
+\Superbalist\LaravelEventPubSub\Events\ListenExprFailureEvent(
+    \Superbalist\EventPubSub\EventInterface $event,
+    $expr
+)
+```
+
+```
+\Superbalist\LaravelEventPubSub\Events\ValidationFailureEvent(
+    \Superbalist\EventPubSub\ValidationResult $result
+)
 ```

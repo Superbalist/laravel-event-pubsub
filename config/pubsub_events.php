@@ -156,4 +156,63 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Throw Validation Exceptions on Dispatch?
+    |--------------------------------------------------------------------------
+    |
+    | If true, and a validator is set, if an event fails validation on dispatch,
+    | a ValidationException will be thrown.
+    |
+    */
+
+    'throw_validation_exceptions_on_dispatch' => env('PUBSUB_EVENTS_THROW_VALIDATION_EXCEPTIONS_ON_DISPATCH', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Translate Fail Handler
+    |--------------------------------------------------------------------------
+    |
+    | The translate fail handler is a callable which is called when a message
+    | is received but fails to translate to an event.
+    |
+    */
+
+    'translate_fail_handler' => function ($message) {
+        $dispatcher = app('events'); /* @var \Illuminate\Events\Dispatcher $dispatcher */
+        $dispatcher->fire(new \Superbalist\LaravelEventPubSub\Events\TranslationFailureEvent($message));
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Listen Expr Fail Handler
+    |--------------------------------------------------------------------------
+    |
+    | The listen expr fail handler is a callable which is called when an event
+    | is received but doesn't match the listen expression.
+    |
+    | This isn't really an error, but can be useful for debugging.
+    |
+    */
+
+    'listen_expr_fail_handler' => function (\Superbalist\EventPubSub\EventInterface $event, $expr) {
+        $dispatcher = app('events'); /* @var \Illuminate\Events\Dispatcher $dispatcher */
+        $dispatcher->fire(new \Superbalist\LaravelEventPubSub\Events\ListenExprFailureEvent($event, $expr));
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Validation Fail Handler
+    |--------------------------------------------------------------------------
+    |
+    | The validation handler is a callable which is called when an event
+    | is dispatched or received but fails validation.
+    |
+    */
+
+    'validation_fail_handler' => function (\Superbalist\EventPubSub\ValidationResult $result) {
+        $dispatcher = app('events'); /* @var \Illuminate\Events\Dispatcher $dispatcher */
+        $dispatcher->fire(new \Superbalist\LaravelEventPubSub\Events\ValidationFailureEvent($result));
+    },
+
 ];
