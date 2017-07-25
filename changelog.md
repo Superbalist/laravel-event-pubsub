@@ -2,7 +2,7 @@
 
 ## 3.0.1 - 2017-07-25
 
-* Allow for superbalist/laravel4-pubsub ^3.0
+* Allow for superbalist/laravel-pubsub ^3.0
 
 ## 3.0.0 - 2017-07-17
 
