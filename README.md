@@ -1,6 +1,6 @@
 # laravel-event-pubsub
 
-An event protocol and implementation over pub/sub for Laravel.
+An event protocol and implementation over pub/sub for Laravel and Lumen.
 
 [![Author](http://img.shields.io/badge/author-@superbalist-blue.svg?style=flat-square)](https://twitter.com/superbalist)
 [![Build Status](https://img.shields.io/travis/Superbalist/laravel-event-pubsub/master.svg?style=flat-square)](https://travis-ci.org/Superbalist/laravel-event-pubsub)
@@ -9,7 +9,7 @@ An event protocol and implementation over pub/sub for Laravel.
 [![Packagist Version](https://img.shields.io/packagist/v/superbalist/laravel-event-pubsub.svg?style=flat-square)](https://packagist.org/packages/superbalist/laravel-event-pubsub)
 [![Total Downloads](https://img.shields.io/packagist/dt/superbalist/laravel-event-pubsub.svg?style=flat-square)](https://packagist.org/packages/superbalist/laravel-event-pubsub)
 
-This package is a wrapper bridging [php-event-pubsub](https://github.com/Superbalist/php-event-pubsub) into Laravel.
+This package is a wrapper bridging [php-event-pubsub](https://github.com/Superbalist/php-event-pubsub) into Laravel and Lumen.
 It builds on top of the existing [laravel-pubsub](https://github.com/Superbalist/laravel-pubsub) package adding support
 for publishing and subscribing to events over pub/sub.
 
@@ -17,7 +17,7 @@ If you aren't familiar with the `laravel-pubsub` package, it's worth first takin
 
 For **Laravel 4** support, use the package https://github.com/Superbalist/laravel4-event-pubsub
 
-## Installation
+## Laravel Installation
 
 ```bash
 composer require superbalist/laravel-event-pubsub
@@ -38,7 +38,7 @@ Register the service provider in app.php
 ```php
 'providers' => [
     // ...
-    Superbalist\LaravelEventPubSub\PubSubEventsServiceProvider::class,
+    Superbalist\LaravelEventPubSub\PubSubEventsLaravelServiceProvider::class,
 ]
 ```
 
@@ -52,10 +52,46 @@ Register the facade in app.php
 
 To customize the configuration file, publish the package configuration using Artisan.
 ```bash
-php artisan vendor:publish --provider="Superbalist\LaravelEventPubSub\PubSubEventsServiceProvider"
+php artisan vendor:publish --provider="Superbalist\LaravelEventPubSub\PubSubEventsLaravelServiceProvider"
 ```
 
 You can then edit the generated config at `app/config/pubsub_events.php`.
+
+## Lumen Installation
+
+```bash
+composer require superbalist/laravel-event-pubsub
+```
+
+The package has a default configuration which uses the following environment variables.
+```
+PUBSUB_EVENTS_CONNECTION=null
+PUBSUB_EVENTS_TRANSLATOR=pubsub.events.translators.simple
+PUBSUB_EVENTS_VALIDATOR=null
+PUBSUB_EVENTS_THROW_VALIDATION_EXCEPTIONS_ON_DISPATCH=true
+```
+
+If the `PUBSUB_EVENTS_CONNECTION` environment variable or `pubsub_events.default` config value is left blank, the
+default connection will be taken from the `laravel-pubsub` package config.
+
+Register the service provider in app.php
+```php
+$app->register(Superbalist\LaravelEventPubSub\PubSubEventsLumenServiceProvider::class);
+```
+
+Register the facade in app.php
+```php
+if (!class_exists('PubSubEvents')) {
+    class_alias('Superbalist\LaravelEventPubSub\PubSubEventsFacade', 'PubSubEvents');
+}
+```
+
+To customize the configuration file, copy the package configuration.
+```bash
+cp vendor/superbalist/laravel-event-pubsub/config/pubsub_events.php config/pubsub_events.php
+```
+
+You can then edit the generated config at `config/pubsub_events.php`.
 
 ## Usage
 
