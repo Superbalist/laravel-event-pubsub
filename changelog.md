@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.2 - 2017-12-01
+
+* Added Lumen support
+
 ## 3.0.1 - 2017-07-25
 
 * Allow for superbalist/laravel-pubsub ^3.0
